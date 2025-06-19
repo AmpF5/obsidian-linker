@@ -3,6 +3,7 @@ use std::{
     io::{BufRead, BufReader, Read},
 };
 
+use dotenv::dotenv;
 use walkdir::{DirEntry, WalkDir};
 
 #[derive(Debug)]
@@ -36,6 +37,11 @@ impl Topics {
 }
 
 fn main() {
+    dotenv().ok();
+
+    let dir_path = std::env::var("DIR_PATH").expect("DIR_PATH is not set");
+    let file_path = std::env::var("FILE_PATH").expect("FILE_PATH is not set");
+
     let files_in_dir: Vec<DirEntry> = WalkDir::new(dir_path)
         .max_depth(3)
         .into_iter()
